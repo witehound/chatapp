@@ -1,0 +1,7 @@
+.JoinRoom {
+  background-color: white;
+  border-radius: var(--border-radius);
+  height: 380px;
+  width: 320px;
+  padding: 10px;
+}

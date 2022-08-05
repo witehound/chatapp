@@ -1,0 +1,24 @@
+.OnlineUsers {
+  background-color: white;
+  border-radius: var(--border-radius);
+  height: 380px;
+  width: 320px;
+  padding: 10px;
+}
+
+.OnlineUsersContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.OnlineUsersHeading {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.OnlineUsersUsers {
+  height: calc(100% - 40px);
+  text-align: center;
+}

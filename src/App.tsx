@@ -1,24 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
+import {FC, useState, useEffect, useRef } from "react";
 import "./App.css";
 import io from "socket.io-client";
-import Picker from "emoji-picker-react";
 const socket = io("http://localhost:5000");
+import Home from "./pages/home/Home";
 
-function App() {
-  const [socketId, setSocketId] = useState("");
+interface headerProps {
+  socketId: any,
+  joinedRoom: boolean,
+  room: any
+}
+
+const App: FC<any> = () => {
+  const [socketId, setSocketId] = useState<any>("");
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState<any>([]);
-  const [joinedRoom, setJoinedRoom] = useState(false);
+  const [joinedRoom, setJoinedRoom] = useState<boolean>(false);
   const [room, setRoom] = useState<any>("");
-  const [roomId, setRoomId] = useState<any>("")
   const [chat, setChat] = useState([]);
   const [showEmoji, setShowEmoji] = useState(false);
-  //Emoji
-
-  const onEmojiClick = (event: any, emojiObject: any) => {
-    setMessage(message + emojiObject.emoji);
-  };
+  
   // scroll
   const chatContainer = useRef<any>(null);
 
@@ -107,7 +108,11 @@ function App() {
 
   return (
     <>
-      <h1 className="main_heading">Chat App</h1>
+      <div className="App">
+        <Home socketId={socketId} joinedRoom={joinedRoom} room={room} users={users} joinRoom={joinRoom} rooms={rooms} createRoom={createRoom} />
+      </div>
+      
+      {/* <h1 className="main_heading">Chat App</h1>
       <h1 className="my_socket">Me: {socketId}</h1>
       <h3 className="roomjoined">
         {joinedRoom === true
@@ -117,18 +122,6 @@ function App() {
 
       {!joinedRoom && (
         <div className="container">
-          <div className="users-container">
-            <h2 className="users_heading">Online Users:</h2>
-            <ul className="users">
-              {users.map((user) => {
-                return (
-                  <li className="user" key={user}>
-                    {user && user === socketId ? `*ME*` : user}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
           <div className="rooms-container">
             <h2 className="rooms_heading">Available Rooms:</h2>
 
@@ -198,7 +191,7 @@ function App() {
             </button>
           </form>
         </>
-      )}
+      )} */}
     </>
   );
 }
