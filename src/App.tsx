@@ -41,10 +41,20 @@ function App() {
 
     socket.on("getAllRooms", (rooms) => {
       setRooms(rooms);
+      for (let a of rooms) {
+        if (a.id === room) {
+          setChat(a.chat)
+        }
+      }
     });
     // Real time
     socket.on("updateRooms", (rooms) => {
       setRooms(rooms);
+      for (let a of rooms) {
+        if (a.id === room) {
+          setChat(a.chat)
+        }
+      }
     });
 
     // Rooms
@@ -60,6 +70,9 @@ function App() {
   const sendMessage = async () => {
     const payload = { message: message, room: room, socketId: socketId };
     await socket.emit("message", payload);
+    socket.on("getAllRooms", (rooms) => {
+      setRooms(rooms);
+    });
     setMessage("")
 
     chatContainer.current.scrollIntoView({
@@ -75,13 +88,7 @@ function App() {
       setRooms(rooms);
     });
 
-    console.log(room);
-    for (let a of rooms) {
-      if (a.id === room) {
-        setChat(a.chat)
-      }
-    }
-    console.log(chat);
+    console.log(rooms)
   };
 
   const createRoom = () => {
