@@ -10,7 +10,8 @@ function App() {
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState<any>([]);
   const [joinedRoom, setJoinedRoom] = useState(false);
-  const [room, setRoom] = useState<String>("");
+  const [room, setRoom] = useState<any>("");
+  const [roomId, setRoomId] = useState<any>("")
   const [chat, setChat] = useState([]);
   const [showEmoji, setShowEmoji] = useState(false);
   //Emoji
@@ -54,24 +55,33 @@ function App() {
         block: "end",
       });
     }
-  }, [chat, rooms, message]);
+  }, [chat, rooms]);
 
   const sendMessage = async () => {
     const payload = { message: message, room: room, socketId: socketId };
-    socket.emit("message", payload);
+    await socket.emit("message", payload);
     setMessage("")
+
     chatContainer.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
     });
+
     socket.on("getAllRooms", (rooms) => {
       setRooms(rooms);
     });
-    // Real time
+
     socket.on("updateRooms", (rooms) => {
       setRooms(rooms);
     });
-    console.log(rooms)
+
+    console.log(room);
+    for (let a of rooms) {
+      if (a.id === room) {
+        setChat(a.chat)
+      }
+    }
+    console.log(chat);
   };
 
   const createRoom = () => {
