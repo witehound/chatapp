@@ -10,25 +10,29 @@ interface Iprops {
 const JoinRoom: FC<Iprops> = ({ joinRoom, rooms, createRoom }: Iprops) => {
   return (
     <div className="JoinRoom">
-      <h2 className="rooms_heading">Available Rooms:</h2>
+      <div className="JoinRoomContainer">
+        <h2 className="JoinRoomHeading">Available Rooms:</h2>
+        <div className="joinRoomRoom">
+          {rooms.length === 0 ? (
+            <h3 className="no_rooms">No Rooms! Create a room !</h3>
+          ) : (
+            <ul className="rooms">
+              {rooms.map((room: any) => {
+                return (
+                  <div key={room.id} onClick={() => joinRoom(room)}>
+                    {room.id}
+                  </div>
+                );
+              })}
+            </ul>
+          )}
+        </div>
 
-      {rooms.length === 0 ? (
-        <h3 className="no_rooms">No Rooms! Create a room !</h3>
-      ) : (
-        <ul className="rooms">
-          {rooms.map((room: any) => {
-            return (
-              <div key={room.id} onClick={() => joinRoom(room)}>
-                {room.id}
-              </div>
-            );
-          })}
-        </ul>
-      )}
-      <div className="btn-container">
-        <button className="btn" onClick={() => createRoom()}>
-          Create Room
-        </button>
+        <div className="joinRoomBtn">
+          <button className="joinRoombtn" onClick={() => createRoom()}>
+            Create Room
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ interface Iprops {
 }
 
 const OnlineUsers: FC<any> = ({ users, socketId }: Iprops) => {
-  console.log(users)
   return (
     <div className="OnlineUsers">
       <div className="OnlineUsersContainer">

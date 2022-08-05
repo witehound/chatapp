@@ -109,7 +109,7 @@ const App: FC<any> = () => {
   return (
     <>
       <div className="App">
-        <Home socketId={socketId} joinedRoom={joinedRoom} room={room} users={users} joinRoom={joinRoom} rooms={rooms} createRoom={createRoom} />
+        <Home socketId={socketId} joinedRoom={joinedRoom} room={room} users={users} joinRoom={joinRoom} rooms={rooms} createRoom={createRoom} chatContainer={chatContainer} />
       </div>
       
       {/* <h1 className="main_heading">Chat App</h1>
@@ -119,33 +119,6 @@ const App: FC<any> = () => {
           ? `Room: ${room}`
           : "You are not joined in any room"}
       </h3>
-
-      {!joinedRoom && (
-        <div className="container">
-          <div className="rooms-container">
-            <h2 className="rooms_heading">Available Rooms:</h2>
-
-            {rooms.length === 0 ? (
-              <h3 className="no_rooms">No Rooms! Create a room !</h3>
-            ) : (
-              <ul className="rooms">
-                {rooms.map((room: any) => {
-                  return (
-                    <li key={room.id} onClick={() => joinRoom(room)}>
-                      {room.id}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-            <div className="btn-container">
-              <button className="btn" onClick={() => createRoom()}>
-                Create Room
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {joinedRoom && (
         <>
