@@ -15,15 +15,18 @@ const Chat: FC<Iprops> = ({ chatContainer , chat, socketId, sendMessage, message
     <>
       <div className="chatContainer">
         <div className="chatDisplay">
-        <ul className="chat-list" id="chat-list" ref={chatContainer}>
+        <ul className="chatList" id="chat-list" ref={chatContainer}>
               {chat.map((chat: any, idx: any) => (
                 <div
                   key={idx}
-                  className={chat.writer === socketId ? "chat-me" : "chat-user"}
+                  className={chat.writer === socketId ? "chatMe" : "chatUser"}
                 >
-                  {chat.writer === socketId
+                  <div className={`sentChat ${chat.writer === socketId && "sentChatMe"}`}>
+                    {chat.writer === socketId
                     ? `${chat.message}: ME*`
                     : `User (${chat.writer.slice(0, 5)}): ${chat.message}`}
+                  </div>
+                  
                 </div>
               ))}
             </ul>

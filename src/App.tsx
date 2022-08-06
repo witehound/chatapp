@@ -77,11 +77,6 @@ const App: FC<any> = () => {
     });
     setMessage("");
 
-    chatContainer.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
-
     socket.on("getAllRooms", (rooms) => {
       setRooms(rooms);
     });
@@ -134,46 +129,6 @@ const App: FC<any> = () => {
           />
         )}
       </div>
-
-      {/* <h1 className="main_heading">Chat App</h1>
-      <h1 className="my_socket">Me: {socketId}</h1>
-      <h3 className="roomjoined">
-        {joinedRoom === true
-          ? `Room: ${room}`
-          : "You are not joined in any room"}
-      </h3>
-
-      {joinedRoom && (
-        <>
-
-          <form className="chat-form" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Your message ..."
-              autoFocus
-              onChange={(e) => {
-                setMessage(e.target.value);
-              }}
-              value={message}
-            />
-
-            <button
-              className="emoji_btn"
-              type="button"
-              onClick={() => setShowEmoji(!showEmoji)}
-            >
-              Emoji
-            </button>
-            <button
-              className="send_btn"
-              type="submit"
-              onClick={() => sendMessage()}
-            >
-              Send
-            </button>
-          </form>
-        </>
-      )} */}
     </>
   );
 };
