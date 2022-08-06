@@ -1,13 +1,14 @@
-import {FC, useState, useEffect, useRef } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import "./App.css";
 import io from "socket.io-client";
 const socket = io("http://localhost:5000");
 import Home from "./pages/home/Home";
-
+import Chat from "./pages/chat/Chat";
+import Header from "./components/Header/Header";
 interface headerProps {
-  socketId: any,
-  joinedRoom: boolean,
-  room: any
+  socketId: any;
+  joinedRoom: boolean;
+  room: any;
 }
 
 const App: FC<any> = () => {
@@ -19,7 +20,7 @@ const App: FC<any> = () => {
   const [room, setRoom] = useState<any>("");
   const [chat, setChat] = useState([]);
   const [showEmoji, setShowEmoji] = useState(false);
-  
+
   // scroll
   const chatContainer = useRef<any>(null);
 
@@ -44,7 +45,7 @@ const App: FC<any> = () => {
       setRooms(rooms);
       for (let a of rooms) {
         if (a.id === room) {
-          setChat(a.chat)
+          setChat(a.chat);
         }
       }
     });
@@ -53,7 +54,7 @@ const App: FC<any> = () => {
       setRooms(rooms);
       for (let a of rooms) {
         if (a.id === room) {
-          setChat(a.chat)
+          setChat(a.chat);
         }
       }
     });
@@ -74,7 +75,7 @@ const App: FC<any> = () => {
     socket.on("getAllRooms", (rooms) => {
       setRooms(rooms);
     });
-    setMessage("")
+    setMessage("");
 
     chatContainer.current.scrollIntoView({
       behavior: "smooth",
@@ -89,7 +90,7 @@ const App: FC<any> = () => {
       setRooms(rooms);
     });
 
-    console.log(rooms)
+    console.log(rooms);
   };
 
   const createRoom = () => {
@@ -109,9 +110,22 @@ const App: FC<any> = () => {
   return (
     <>
       <div className="App">
-        <Home socketId={socketId} joinedRoom={joinedRoom} room={room} users={users} joinRoom={joinRoom} rooms={rooms} createRoom={createRoom} chatContainer={chatContainer} />
+        <Header socketId={socketId} joinedRoom={joinedRoom} room={room} />
+        {!joinedRoom && (
+          <Home
+            socketId={socketId}
+            joinedRoom={joinedRoom}
+            room={room}
+            users={users}
+            joinRoom={joinRoom}
+            rooms={rooms}
+            createRoom={createRoom}
+            chatContainer={chatContainer}
+          />
+        )}
+        {joinedRoom && <Chat chatContainer={chatContainer}/>}
       </div>
-      
+
       {/* <h1 className="main_heading">Chat App</h1>
       <h1 className="my_socket">Me: {socketId}</h1>
       <h3 className="roomjoined">
@@ -167,6 +181,6 @@ const App: FC<any> = () => {
       )} */}
     </>
   );
-}
+};
 
 export default App;

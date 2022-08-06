@@ -23,26 +23,16 @@ const Home: FC<Iprops> = ({
   joinRoom,
   rooms,
   createRoom,
-  chatContainer
+  chatContainer,
 }: Iprops) => {
   return (
     <>
-      <Header socketId={socketId} joinedRoom={joinedRoom} room={room} />
-      {!joinedRoom && (
-        <div className="homeView">
-          <div className="homeViewContainer">
-            <OnlineUsers users={users} socketId={socketId} />
-
-            <JoinRoom
-              joinRoom={joinRoom}
-              rooms={rooms}
-              createRoom={createRoom}
-            />
-          </div>
+      <div className="homeView">
+        <div className="homeViewContainer">
+          <OnlineUsers users={users} socketId={socketId} />
+          <JoinRoom joinRoom={joinRoom} rooms={rooms} createRoom={createRoom} />
         </div>
-      )}{
-        joinedRoom && (<h1 ref={chatContainer}>hey</h1>)
-      }
+      </div>
     </>
   );
 };
