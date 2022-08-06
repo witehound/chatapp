@@ -123,7 +123,16 @@ const App: FC<any> = () => {
             chatContainer={chatContainer}
           />
         )}
-        {joinedRoom && <Chat chatContainer={chatContainer}/>}
+        {joinedRoom && (
+          <Chat
+            chatContainer={chatContainer}
+            sendMessage={sendMessage}
+            setMessage={setMessage}
+            socketId={socketId}
+            chat={chat}
+            message={message}
+          />
+        )}
       </div>
 
       {/* <h1 className="main_heading">Chat App</h1>
@@ -136,20 +145,6 @@ const App: FC<any> = () => {
 
       {joinedRoom && (
         <>
-          <div className="chat-container">
-            <ul className="chat-list" id="chat-list" ref={chatContainer}>
-              {chat.map((chat: any, idx) => (
-                <li
-                  key={idx}
-                  className={chat.writer === socketId ? "chat-me" : "chat-user"}
-                >
-                  {chat.writer === socketId
-                    ? `${chat.message}: ME*`
-                    : `User (${chat.writer.slice(0, 5)}): ${chat.message}`}
-                </li>
-              ))}
-            </ul>
-          </div>
 
           <form className="chat-form" onSubmit={(e) => e.preventDefault()}>
             <input
