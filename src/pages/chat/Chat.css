@@ -1,0 +1,59 @@
+.chatContainer {
+  width: 100%;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.chatDisplay {
+  height: 75%;
+}
+
+.chatList {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.chatMe {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 40px;
+  margin: 5px;
+  align-items: center;
+}
+
+.chatUser {
+  width: 100%;
+  height: 40px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.sentChat {
+  background-color: white;
+  color: var(--background-color);
+  height: 35px;
+  display: flex;
+  align-items: center;
+  width: 60%;
+  padding-left: 20px;
+  border-radius: var(--border-radius);
+}
+
+.sentChatMe {
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+.chatForm {
+  flex: 1;
+}
+
+.chatBack {
+  flex: 1;
+}

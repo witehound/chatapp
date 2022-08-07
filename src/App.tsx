@@ -1,24 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import "./App.css";
 import io from "socket.io-client";
-import Picker from "emoji-picker-react";
 const socket = io("http://localhost:5000");
+import Home from "./pages/home/Home";
+import Chat from "./pages/chat/Chat";
+import Header from "./components/Header/Header";
+interface headerProps {
+  socketId: any;
+  joinedRoom: boolean;
+  room: any;
+}
 
-function App() {
-  const [socketId, setSocketId] = useState("");
+const App: FC<any> = () => {
+  const [socketId, setSocketId] = useState<any>("");
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState<any>([]);
-  const [joinedRoom, setJoinedRoom] = useState(false);
+  const [joinedRoom, setJoinedRoom] = useState<boolean>(false);
   const [room, setRoom] = useState<any>("");
-  const [roomId, setRoomId] = useState<any>("")
   const [chat, setChat] = useState([]);
   const [showEmoji, setShowEmoji] = useState(false);
-  //Emoji
 
-  const onEmojiClick = (event: any, emojiObject: any) => {
-    setMessage(message + emojiObject.emoji);
-  };
   // scroll
   const chatContainer = useRef<any>(null);
 
@@ -43,7 +45,7 @@ function App() {
       setRooms(rooms);
       for (let a of rooms) {
         if (a.id === room) {
-          setChat(a.chat)
+          setChat(a.chat);
         }
       }
     });
@@ -52,7 +54,7 @@ function App() {
       setRooms(rooms);
       for (let a of rooms) {
         if (a.id === room) {
-          setChat(a.chat)
+          setChat(a.chat);
         }
       }
     });
@@ -73,12 +75,7 @@ function App() {
     socket.on("getAllRooms", (rooms) => {
       setRooms(rooms);
     });
-    setMessage("")
-
-    chatContainer.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
+    setMessage("");
 
     socket.on("getAllRooms", (rooms) => {
       setRooms(rooms);
@@ -88,7 +85,7 @@ function App() {
       setRooms(rooms);
     });
 
-    console.log(rooms)
+    console.log(rooms);
   };
 
   const createRoom = () => {
@@ -107,100 +104,33 @@ function App() {
 
   return (
     <>
-      <h1 className="main_heading">Chat App</h1>
-      <h1 className="my_socket">Me: {socketId}</h1>
-      <h3 className="roomjoined">
-        {joinedRoom === true
-          ? `Room: ${room}`
-          : "You are not joined in any room"}
-      </h3>
-
-      {!joinedRoom && (
-        <div className="container">
-          <div className="users-container">
-            <h2 className="users_heading">Online Users:</h2>
-            <ul className="users">
-              {users.map((user) => {
-                return (
-                  <li className="user" key={user}>
-                    {user && user === socketId ? `*ME*` : user}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className="rooms-container">
-            <h2 className="rooms_heading">Available Rooms:</h2>
-
-            {rooms.length === 0 ? (
-              <h3 className="no_rooms">No Rooms! Create a room !</h3>
-            ) : (
-              <ul className="rooms">
-                {rooms.map((room: any) => {
-                  return (
-                    <li key={room.id} onClick={() => joinRoom(room)}>
-                      {room.id}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-            <div className="btn-container">
-              <button className="btn" onClick={() => createRoom()}>
-                Create Room
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {joinedRoom && (
-        <>
-          <div className="chat-container">
-            <ul className="chat-list" id="chat-list" ref={chatContainer}>
-              {chat.map((chat: any, idx) => (
-                <li
-                  key={idx}
-                  className={chat.writer === socketId ? "chat-me" : "chat-user"}
-                >
-                  {chat.writer === socketId
-                    ? `${chat.message}: ME*`
-                    : `User (${chat.writer.slice(0, 5)}): ${chat.message}`}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <form className="chat-form" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Your message ..."
-              autoFocus
-              onChange={(e) => {
-                setMessage(e.target.value);
-              }}
-              value={message}
-            />
-
-            <button
-              className="emoji_btn"
-              type="button"
-              onClick={() => setShowEmoji(!showEmoji)}
-            >
-              Emoji
-            </button>
-            <button
-              className="send_btn"
-              type="submit"
-              onClick={() => sendMessage()}
-            >
-              Send
-            </button>
-          </form>
-        </>
-      )}
+      <div className="App">
+        <Header socketId={socketId} joinedRoom={joinedRoom} room={room} />
+        {!joinedRoom && (
+          <Home
+            socketId={socketId}
+            joinedRoom={joinedRoom}
+            room={room}
+            users={users}
+            joinRoom={joinRoom}
+            rooms={rooms}
+            createRoom={createRoom}
+            chatContainer={chatContainer}
+          />
+        )}
+        {joinedRoom && (
+          <Chat
+            chatContainer={chatContainer}
+            sendMessage={sendMessage}
+            setMessage={setMessage}
+            socketId={socketId}
+            chat={chat}
+            message={message}
+          />
+        )}
+      </div>
     </>
   );
-}
+};
 
 export default App;

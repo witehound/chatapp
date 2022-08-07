@@ -1,0 +1,39 @@
+.JoinRoom {
+  background-color: white;
+  border-radius: var(--border-radius);
+  height: 380px;
+  width: 320px;
+  padding: 10px;
+}
+
+.JoinRoomContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.JoinRoomHeading {
+  flex: 1;
+}
+
+.joinRoomRoom {
+  flex: 5;
+  overflow: scroll;
+}
+
+.joinRoomBtn {
+  flex: 1;
+}
+
+.joinRoombtn {
+  background-color: var(--background-color);
+  color: white;
+  outline: none;
+  width: 150px;
+  height: 45px;
+  border: none;
+  border-radius: var(--border-radius);
+}
