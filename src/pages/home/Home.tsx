@@ -10,8 +10,9 @@ interface Iprops {
   users: any;
   joinRoom: any;
   rooms: any;
-  createRoom: any;
   chatContainer: any;
+  socket: any;
+  setRooms: any;
 }
 
 const Home: FC<Iprops> = ({
@@ -19,14 +20,15 @@ const Home: FC<Iprops> = ({
   users,
   joinRoom,
   rooms,
-  createRoom,
+  socket,
+  setRooms
 }: Iprops) => {
   return (
     <>
       <div className="homeView">
         <div className="homeViewContainer">
           <OnlineUsers users={users} socketId={socketId} />
-          <JoinRoom joinRoom={joinRoom} rooms={rooms} createRoom={createRoom} />
+          <JoinRoom joinRoom={joinRoom} rooms={rooms} socket={socket} setRooms={setRooms} />
         </div>
       </div>
     </>

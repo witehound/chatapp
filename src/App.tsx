@@ -56,19 +56,6 @@ const App: FC<any> = () => {
     });
   }, [chat, rooms]);
  
-  const createRoom = () => {
-    socket.emit("createRoom");
-    socket.on("getRoom", (room) => {
-      setRooms([...rooms, room]);
-    });
-  };
-
-  const joinRoom = (room: any) => {
-    socket.emit("joinRoom", room);
-    setRoom(room.id);
-    setJoinedRoom(true);
-    setChat(room.chat);
-  };
 
   return (
     <>
@@ -80,10 +67,13 @@ const App: FC<any> = () => {
             joinedRoom={joinedRoom}
             room={room}
             users={users}
-            joinRoom={joinRoom}
             rooms={rooms}
-            createRoom={createRoom}
+            socket={socket}
+            setRooms={setRooms}
             chatContainer={chatContainer}
+            setJoinedRoom={setJoinedRoom}
+            setRoom={setRoom}
+            setChat={setChat}
           />
         )}
         {joinedRoom && (

@@ -2,12 +2,30 @@ import React, { FC } from "react";
 import "./JoinRoom.css";
 
 interface Iprops {
-  joinRoom: any;
   rooms: any;
-  createRoom: any;
+  socket: any;
+  setRooms: any;
+  setRoom: any;
+  setJoinedRoom: any;
+  setChat: any;
 }
 
-const JoinRoom: FC<Iprops> = ({ joinRoom, rooms, createRoom }: Iprops) => {
+const JoinRoom: FC<Iprops> = ({ rooms, socket, setRooms, setRoom, setJoinedRoom, setChat }: Iprops) => {
+
+  const createRoom = () => {
+    socket.emit("createRoom");
+    socket.on("getRoom", (room: any) => {
+      setRooms([...rooms, room]);
+    });
+  };
+
+  const joinRoom = (room: any) => {
+    socket.emit("joinRoom", room);
+    setRoom(room.id);
+    setJoinedRoom(true);
+    setChat(room.chat);
+  };
+
   return (
     <div className="JoinRoom">
       <div className="JoinRoomContainer">
