@@ -19,7 +19,8 @@ const App: FC<any> = () => {
   const [joinedRoom, setJoinedRoom] = useState<boolean>(false);
   const [room, setRoom] = useState<any>("");
   const [chat, setChat] = useState([]);
-  const [showEmoji, setShowEmoji] = useState(false);
+  const [mainSocket, setShowEmoji] = useState(false);
+
 
   // scroll
   const chatContainer = useRef<any>(null);
@@ -49,6 +50,7 @@ const App: FC<any> = () => {
         }
       }
     });
+
     // Real time
     socket.on("updateRooms", (rooms) => {
       setRooms(rooms);
@@ -60,7 +62,6 @@ const App: FC<any> = () => {
     });
 
     // Rooms
-
     if (joinedRoom === true) {
       chatContainer.current.scrollIntoView({
         behavior: "smooth",
@@ -84,8 +85,6 @@ const App: FC<any> = () => {
     socket.on("updateRooms", (rooms) => {
       setRooms(rooms);
     });
-
-    console.log(rooms);
   };
 
   const createRoom = () => {
@@ -126,6 +125,7 @@ const App: FC<any> = () => {
             socketId={socketId}
             chat={chat}
             message={message}
+            socket={socket}
           />
         )}
       </div>

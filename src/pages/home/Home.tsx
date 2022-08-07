@@ -17,13 +17,10 @@ interface Iprops {
 
 const Home: FC<Iprops> = ({
   socketId,
-  joinedRoom,
-  room,
   users,
   joinRoom,
   rooms,
   createRoom,
-  chatContainer,
 }: Iprops) => {
   return (
     <>
