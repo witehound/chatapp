@@ -5,21 +5,16 @@ const socket = io("http://localhost:5000");
 import Home from "./pages/home/Home";
 import Chat from "./pages/chat/Chat";
 import Header from "./components/Header/Header";
-interface headerProps {
-  socketId: any;
-  joinedRoom: boolean;
-  room: any;
-}
 
 const App: FC<any> = () => {
   const [socketId, setSocketId] = useState<any>("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<string>("");
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState<any>([]);
   const [joinedRoom, setJoinedRoom] = useState<boolean>(false);
   const [room, setRoom] = useState<any>("");
   const [chat, setChat] = useState([]);
-  const [showEmoji, setShowEmoji] = useState(false);
+
 
   // scroll
   const chatContainer = useRef<any>(null);
@@ -49,6 +44,7 @@ const App: FC<any> = () => {
         }
       }
     });
+
     // Real time
     socket.on("updateRooms", (rooms) => {
       setRooms(rooms);
@@ -58,49 +54,8 @@ const App: FC<any> = () => {
         }
       }
     });
-
-    // Rooms
-
-    if (joinedRoom === true) {
-      chatContainer.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
   }, [chat, rooms]);
-
-  const sendMessage = async () => {
-    const payload = { message: message, room: room, socketId: socketId };
-    await socket.emit("message", payload);
-    socket.on("getAllRooms", (rooms) => {
-      setRooms(rooms);
-    });
-    setMessage("");
-
-    socket.on("getAllRooms", (rooms) => {
-      setRooms(rooms);
-    });
-
-    socket.on("updateRooms", (rooms) => {
-      setRooms(rooms);
-    });
-
-    console.log(rooms);
-  };
-
-  const createRoom = () => {
-    socket.emit("createRoom");
-    socket.on("getRoom", (room) => {
-      setRooms([...rooms, room]);
-    });
-  };
-
-  const joinRoom = (room: any) => {
-    socket.emit("joinRoom", room);
-    setRoom(room.id);
-    setJoinedRoom(true);
-    setChat(room.chat);
-  };
+ 
 
   return (
     <>
@@ -112,20 +67,26 @@ const App: FC<any> = () => {
             joinedRoom={joinedRoom}
             room={room}
             users={users}
-            joinRoom={joinRoom}
             rooms={rooms}
-            createRoom={createRoom}
+            socket={socket}
+            setRooms={setRooms}
             chatContainer={chatContainer}
+            setJoinedRoom={setJoinedRoom}
+            setRoom={setRoom}
+            setChat={setChat}
           />
         )}
         {joinedRoom && (
           <Chat
-            chatContainer={chatContainer}
-            sendMessage={sendMessage}
             setMessage={setMessage}
             socketId={socketId}
             chat={chat}
             message={message}
+            joinedRoom={joinedRoom}
+            room={room}
+            socket={socket}
+            setRooms={setRooms}
+            rooms={rooms}
           />
         )}
       </div>
