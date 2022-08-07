@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import "./Home.css";
-import Header from "../../components/Header/Header";
 import OnlineUsers from "../../components/onlineUsers/OnlineUsers";
 import JoinRoom from "../../components/joinRoom/JoinRoom";
 

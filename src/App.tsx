@@ -8,13 +8,12 @@ import Header from "./components/Header/Header";
 
 const App: FC<any> = () => {
   const [socketId, setSocketId] = useState<any>("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<string>("");
   const [users, setUsers] = useState([]);
   const [rooms, setRooms] = useState<any>([]);
   const [joinedRoom, setJoinedRoom] = useState<boolean>(false);
   const [room, setRoom] = useState<any>("");
   const [chat, setChat] = useState([]);
-  const [mainSocket, setShowEmoji] = useState(false);
 
 
   // scroll
@@ -55,33 +54,8 @@ const App: FC<any> = () => {
         }
       }
     });
-
-    // Rooms
-    if (joinedRoom === true) {
-      chatContainer.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
   }, [chat, rooms]);
-
-  const sendMessage = async () => {
-    const payload = { message: message, room: room, socketId: socketId };
-    await socket.emit("message", payload);
-    socket.on("getAllRooms", (rooms) => {
-      setRooms(rooms);
-    });
-    setMessage("");
-
-    socket.on("getAllRooms", (rooms) => {
-      setRooms(rooms);
-    });
-
-    socket.on("updateRooms", (rooms) => {
-      setRooms(rooms);
-    });
-  };
-
+ 
   const createRoom = () => {
     socket.emit("createRoom");
     socket.on("getRoom", (room) => {
@@ -114,16 +88,15 @@ const App: FC<any> = () => {
         )}
         {joinedRoom && (
           <Chat
-            sendMessage={sendMessage}
             setMessage={setMessage}
             socketId={socketId}
             chat={chat}
             message={message}
             joinedRoom={joinedRoom}
-            room
-            socket
-            setRooms
-            rooms
+            room={room}
+            socket={socket}
+            setRooms={setRooms}
+            rooms={rooms}
           />
         )}
       </div>
