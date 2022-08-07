@@ -5,11 +5,6 @@ const socket = io("http://localhost:5000");
 import Home from "./pages/home/Home";
 import Chat from "./pages/chat/Chat";
 import Header from "./components/Header/Header";
-interface headerProps {
-  socketId: any;
-  joinedRoom: boolean;
-  room: any;
-}
 
 const App: FC<any> = () => {
   const [socketId, setSocketId] = useState<any>("");
@@ -119,13 +114,16 @@ const App: FC<any> = () => {
         )}
         {joinedRoom && (
           <Chat
-            chatContainer={chatContainer}
             sendMessage={sendMessage}
             setMessage={setMessage}
             socketId={socketId}
             chat={chat}
             message={message}
-            socket={socket}
+            joinedRoom={joinedRoom}
+            room
+            socket
+            setRooms
+            rooms
           />
         )}
       </div>
